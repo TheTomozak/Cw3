@@ -28,15 +28,20 @@ namespace Cw3APBD.Controllers
 
 
         [HttpGet("{id}")]
-        public IActionResult GetStudents(int id)
+        public IActionResult GetStudents(int id, Student student)
         {
 
             if (id == 1)
             {
                 return Ok("Kowalski");
-            } else if (id == 2)
+            }
+            else if (id == 2)
             {
                 return Ok("Malewski");
+            }
+            else if (id == student.IdStudent)
+            {
+                return Ok(student.LastName);
             }
 
             return NotFound("Nie znaleziono studenta");
@@ -47,7 +52,7 @@ namespace Cw3APBD.Controllers
         public IActionResult CreateStudent(Student student)
         {
             // add to database 
-            // generating ondex number
+            // generating index number
 
             student.IndexNumber = $"s{new Random().Next(1, 20000)}";
             return Ok(student);
@@ -55,7 +60,7 @@ namespace Cw3APBD.Controllers
 
 
         [HttpPut("{id}")]
-        public IActionResult EditStudent ( Student student, int id)
+        public IActionResult EditStudent(Student student, int id)
         {
 
             student.IdStudent = id;
@@ -64,8 +69,9 @@ namespace Cw3APBD.Controllers
 
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteStudent (int id)
+        public IActionResult DeleteStudent(int id)
         {
+
             return Ok("Delete successful");
         }
 
