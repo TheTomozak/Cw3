@@ -60,11 +60,9 @@ namespace Cw3APBD.Controllers
 
 
         [HttpPut("{id}")]
-        public IActionResult EditStudent(Student student, int id)
+        public IActionResult EditStudent( int id)
         {
-
-            student.IdStudent = id;
-            return Ok(student);
+            return Ok("Update succesful");
         }
 
 
