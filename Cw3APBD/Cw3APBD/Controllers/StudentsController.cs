@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Cw3APBD.DAL;
 using Cw3APBD.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,6 +13,13 @@ namespace Cw3APBD.Controllers
     [Route("api/students")]
     public class StudentsController : ControllerBase
     {
+
+        private readonly IDbService _dbService;
+        
+        public StudentsController(IDbService dbService)
+        {
+            _dbService = dbService;
+        }
         /*
         [HttpGet]
         public string GetStudents()
@@ -21,14 +29,17 @@ namespace Cw3APBD.Controllers
         */
 
         [HttpGet]
-        public string GetStudents(string orderBy)   // przekazywane danych z pomocą QueryString
+        public IActionResult GetStudents(string orderBy)   // przekazywane danych z pomocą QueryString
         {
-            return $"Kowalski, Malewski, Andrzejewski sortowanie={orderBy}";
+            // return $"Kowalski, Malewski, Andrzejewski sortowanie={orderBy}";
+            return Ok(_dbService.GetStudents());
         }
+
+        
 
 
         [HttpGet("{id}")]
-        public IActionResult GetStudents(int id, Student student)
+        public IActionResult GetStudents(int id)
         {
 
             if (id == 1)
@@ -39,10 +50,7 @@ namespace Cw3APBD.Controllers
             {
                 return Ok("Malewski");
             }
-            else if (id == student.IdStudent)
-            {
-                return Ok(student.LastName);
-            }
+           
 
             return NotFound("Nie znaleziono studenta");
 
