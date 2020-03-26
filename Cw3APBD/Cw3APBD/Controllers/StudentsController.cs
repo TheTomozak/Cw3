@@ -45,16 +45,26 @@ namespace Cw3APBD.Controllers
 
                 con.Open();
                 SqlDataReader dataReader = com.ExecuteReader();
-                             
+
 
                 while (dataReader.Read())
                 {
                     var st = new Student();
-                    st.IndexNumber = dataReader["IndexNumber"].ToString();
-                    st.FirstName = dataReader["FirstName"].ToString();
-                    st.LastName = dataReader["LastName"].ToString();
-                    st.BirthDate = DateTime.Parse(dataReader["BirthDate"].ToString());
-                    st.IdEnrollment = int.Parse(dataReader["IdEnrollment"].ToString());
+
+                    if (dataReader["IndexNumber"] != DBNull.Value)
+                        st.IndexNumber = dataReader["IndexNumber"].ToString();
+
+                    if (dataReader["FirstName"] != DBNull.Value)
+                        st.FirstName = dataReader["FirstName"].ToString();
+
+                    if (dataReader["LastName"] != DBNull.Value)
+                        st.LastName = dataReader["LastName"].ToString();
+
+                    if (dataReader["BirthDate"] != DBNull.Value)
+                        st.BirthDate = DateTime.Parse(dataReader["BirthDate"].ToString());
+
+                    if (dataReader["IdEnrollment"] != DBNull.Value)
+                        st.IdEnrollment = int.Parse(dataReader["IdEnrollment"].ToString());
                     listStudents.Add(st);
                 }
 
@@ -69,23 +79,52 @@ namespace Cw3APBD.Controllers
 
 
 
-        [HttpGet("{id}")]
-        public IActionResult GetStudents(int id)
+        [HttpGet("{indexNumber}")]
+        public IActionResult GetStudents(string indexNumber)
         {
 
-            if (id == 1)
-            {
-                return Ok("Kowalski");
-            }
-            else if (id == 2)
-            {
-                return Ok("Malewski");
-            }
-           
 
-            return NotFound("Nie znaleziono studenta");
+            using (var con = new SqlConnection(ConString))
+            using (var com = new SqlCommand())
+            {
+                com.Connection = con;
+                com.CommandText = "select * from student where IndexNumber=@IndexNumber";
+                com.Parameters.AddWithValue("IndexNumber", indexNumber);
+
+
+                con.Open();
+                var dataReader = com.ExecuteReader();
+                if (dataReader.Read())
+                {
+
+                    var st = new Student();
+
+                    if (dataReader["IndexNumber"] != DBNull.Value)
+                        st.IndexNumber = dataReader["IndexNumber"].ToString();
+
+                    if (dataReader["FirstName"] != DBNull.Value)
+                        st.FirstName = dataReader["FirstName"].ToString();
+
+                    if (dataReader["LastName"] != DBNull.Value)
+                        st.LastName = dataReader["LastName"].ToString();
+
+                    if (dataReader["BirthDate"] != DBNull.Value)
+                        st.BirthDate = DateTime.Parse(dataReader["BirthDate"].ToString());
+
+                    if (dataReader["IdEnrollment"] != DBNull.Value)
+                        st.IdEnrollment = int.Parse(dataReader["IdEnrollment"].ToString());
+                    return Ok(st);
+
+                }
+
+            }
+            return NotFound("Student not found");
 
         }
+
+
+
+
 
         [HttpPost]
         public IActionResult CreateStudent(Student student)
@@ -99,7 +138,7 @@ namespace Cw3APBD.Controllers
 
 
         [HttpPut("{id}")]
-        public IActionResult EditStudent( int id)
+        public IActionResult EditStudent(int id)
         {
             return Ok("Update succesful");
         }
