@@ -15,5 +15,9 @@ namespace Cw3APBD.Models
         public string LastName { get; set; }
 
         public string IndexNumber { get; set; }
+
+        public int IdEnrollment { get; set; }
+
+        public DateTime BirthDate { get; set; }
     }
 }

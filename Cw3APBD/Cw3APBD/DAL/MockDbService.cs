@@ -19,7 +19,6 @@ namespace Cw3APBD.DAL
                 new Student {IdStudent=2, FirstName="Anna", LastName="Malewska"},
                 new Student {IdStudent=3, FirstName="Andrzej", LastName="Andrzejewicz"},
 
-
             };
         }
 

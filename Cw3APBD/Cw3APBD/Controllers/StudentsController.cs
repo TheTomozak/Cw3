@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Cw3APBD.DAL;
@@ -15,7 +16,8 @@ namespace Cw3APBD.Controllers
     {
 
         private readonly IDbService _dbService;
-        
+        private String ConString = "Data Source=db-mssql;Initial Catalog=s18969;Integrated Security=True";
+
         public StudentsController(IDbService dbService)
         {
             _dbService = dbService;
@@ -29,13 +31,42 @@ namespace Cw3APBD.Controllers
         */
 
         [HttpGet]
-        public IActionResult GetStudents(string orderBy)   // przekazywane danych z pomocą QueryString
+        public IActionResult GetStudents()   // przekazywane danych z pomocą QueryString
         {
             // return $"Kowalski, Malewski, Andrzejewski sortowanie={orderBy}";
-            return Ok(_dbService.GetStudents());
+            // return Ok(_dbService.GetStudents());
+
+            var listStudents = new List<Student>();
+            using (var con = new SqlConnection(ConString))
+            using (var com = new SqlCommand())
+            {
+                com.Connection = con;
+                com.CommandText = "select * from student";
+
+                con.Open();
+                SqlDataReader dataReader = com.ExecuteReader();
+                             
+
+                while (dataReader.Read())
+                {
+                    var st = new Student();
+                    st.IndexNumber = dataReader["IndexNumber"].ToString();
+                    st.FirstName = dataReader["FirstName"].ToString();
+                    st.LastName = dataReader["LastName"].ToString();
+                    st.BirthDate = DateTime.Parse(dataReader["BirthDate"].ToString());
+                    st.IdEnrollment = int.Parse(dataReader["IdEnrollment"].ToString());
+                    listStudents.Add(st);
+                }
+
+            }
+
+
+
+            return Ok(listStudents);
+
         }
 
-        
+
 
 
         [HttpGet("{id}")]
