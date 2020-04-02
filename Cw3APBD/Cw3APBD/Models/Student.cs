@@ -19,5 +19,8 @@ namespace Cw3APBD.Models
         public int IdEnrollment { get; set; }
 
         public DateTime BirthDate { get; set; }
+        public string Studies { get; set; }
+
+
     }
 }
