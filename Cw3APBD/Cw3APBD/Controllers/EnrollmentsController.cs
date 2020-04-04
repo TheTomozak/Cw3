@@ -36,6 +36,7 @@ namespace Cw3APBD.Controllers
                 con.Open();
 
                 var transaction = con.BeginTransaction();
+                com.Transaction = transaction;
 
                 try
                 {
@@ -45,37 +46,41 @@ namespace Cw3APBD.Controllers
                     var dr = com.ExecuteReader();
                     if (!dr.Read())
                     {
+                        dr.Close();
                         transaction.Rollback();
                         return BadRequest("Studies not exist");
                     }
 
                     int idStudy = (int) dr["IdStudy"];
 
-
+                    dr.Close();
                     com.CommandText = "SELECT IdEnrollment FROM Enrollment WHERE IdStudy = @idStudy AND Semester=1";
                     com.Parameters.AddWithValue("idStudy", idStudy);
 
                     dr = com.ExecuteReader();
                     if (!dr.Read())
                     {
+                        dr.Close();
                         com.CommandText = "INSERT INTO Enrollment (Semester, IdStudy, StartDate)" +
                                           "VALUES (1, @idStudy, @dateNow)";
                         com.Parameters.AddWithValue("dateNow", DateTime.Now);
+                        dr = com.ExecuteReader();
                     }
 
-                    dr = com.ExecuteReader();
-
+                   
+                    dr.Close();
                     com.CommandText = "SELECT 'X' FROM Student WHERE indexNumber=@indexNumber ";
                     com.Parameters.AddWithValue("IndexNumber", request.IndexNumber);
 
                     if (dr.Read())
                     {
+                        dr.Close();
                         transaction.Rollback();
                         return BadRequest($"Student with {request.IndexNumber} exist");
                     }
 
                     int idEnrollment = (int) dr["IdEnrollment"];
-                    dr = com.ExecuteReader();
+                    dr.Close();
 
 
                     com.CommandText =
