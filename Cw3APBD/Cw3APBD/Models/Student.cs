@@ -21,6 +21,8 @@ namespace Cw3APBD.Models
         public DateTime BirthDate { get; set; }
         public string Studies { get; set; }
 
+        public int Semester { get; set; }
+
 
     }
 }

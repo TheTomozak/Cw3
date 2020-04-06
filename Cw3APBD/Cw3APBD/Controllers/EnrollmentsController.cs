@@ -54,7 +54,7 @@ namespace Cw3APBD.Controllers
                     int idStudy = (int) dr["IdStudy"];
 
                     dr.Close();
-                    com.CommandText = "SELECT IdEnrollment FROM Enrollment WHERE IdStudy = @idStudy AND Semester=1";
+                    com.CommandText = "SELECT IdEnrollment FROM Enrollment WHERE IdStudy = @idStudy AND Semester=1 AND StartDate = (SELECT MAX(StartDate) FROM Enrollment)";
                     com.Parameters.AddWithValue("idStudy", idStudy);
 
                     dr = com.ExecuteReader();
@@ -69,10 +69,11 @@ namespace Cw3APBD.Controllers
 
                    
                     dr.Close();
-                    com.CommandText = "SELECT 'X' FROM Student WHERE indexNumber=@indexNumber ";
-                    com.Parameters.AddWithValue("IndexNumber", request.IndexNumber);
+                    com.CommandText = "SELECT 'X' FROM Student WHERE indexNumber=@indexNumber";
+                    com.Parameters.AddWithValue("indexNumber", request.IndexNumber);
+                    dr = com.ExecuteReader();
 
-                    if (dr.Read())
+                    if (!dr.Read())
                     {
                         dr.Close();
                         transaction.Rollback();
@@ -104,5 +105,47 @@ namespace Cw3APBD.Controllers
 
             return Ok(request);
         }
+
+        [HttpPost("promotions")]
+        public IActionResult PromoteStudents(EnrollPromotionsRequest enrollPromotionsRequest)
+        {
+            var st = new Student();
+            st.Studies = enrollPromotionsRequest.Studies;
+            st.Semester = enrollPromotionsRequest.Semester;
+
+            using (var con = new SqlConnection(ConString))
+            using (var com = new SqlCommand())
+            {
+                com.Connection = con;
+                con.Open();
+
+                var transaction = con.BeginTransaction();
+                com.Transaction = transaction;
+
+
+                try
+                {
+
+                    com.CommandText = "EXEC @studies, @semester";
+                    com.Parameters.AddWithValue("studies", enrollPromotionsRequest.Studies);
+                    com.Parameters.AddWithValue("semester", enrollPromotionsRequest.Semester);
+                    com.ExecuteNonQuery();
+
+                    transaction.Commit();
+
+                }
+                catch (SqlException )
+                {
+                    transaction.Rollback();
+                }
+
+
+            }
+
+
+
+            return Ok(enrollPromotionsRequest);
+        }
+
     }
 }
