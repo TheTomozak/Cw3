@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Cw3APBD.DAL;
+using Cw3APBD.DTOs;
 using Cw3APBD.DTOs.Requests;
 using Cw3APBD.Models;
 using Cw3APBD.Services;
@@ -26,9 +27,17 @@ namespace Cw3APBD.Controllers
         [HttpPost]
         public IActionResult EnrollStudent(EnrollStudentRequest request)
         {
-            _server.EnrollStudent(request);
+            EnrollExceptionHelper enrollExceptionHelper = _server.EnrollStudent(request);
 
-            return Ok(request);
+            switch (enrollExceptionHelper.Number)
+            {
+                case 1:
+                    return BadRequest("Studies not exist");
+                case 2:
+                    return BadRequest($"Student with {request.IndexNumber} exist");
+                default:
+                    return Ok(request);
+            }
         }
 
         [HttpPost("promotions")]

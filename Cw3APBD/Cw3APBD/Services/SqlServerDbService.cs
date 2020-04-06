@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using Cw3APBD.DTOs;
 using Cw3APBD.DTOs.Requests;
 using Cw3APBD.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,7 @@ namespace Cw3APBD.Services
     public class SqlServerDbService : IStudentsDbService
     {
          private string ConString = "Data Source=db-mssql;Initial Catalog=s18969;Integrated Security=True";
-        public void EnrollStudent(EnrollStudentRequest request)
+        public EnrollExceptionHelper EnrollStudent(EnrollStudentRequest request)
         {
             var st = new Student();
             st.FirstName = request.FirstName;
@@ -20,6 +21,7 @@ namespace Cw3APBD.Services
             st.BirthDate = request.BirthDate;
             st.Studies = request.Studies;
             st.IndexNumber = request.IndexNumber;
+            EnrollExceptionHelper enrollExceptionHelper = new EnrollExceptionHelper();
 
             using (var con = new SqlConnection(ConString))
             using (var com = new SqlCommand())
@@ -41,7 +43,9 @@ namespace Cw3APBD.Services
                         dr.Close();
                         transaction.Rollback();
                        // return BadRequest("Studies not exist");
-                       
+                       enrollExceptionHelper.Number = 1;
+                       return enrollExceptionHelper;
+
                     }
 
                     int idStudy = (int)dr["IdStudy"];
@@ -71,6 +75,8 @@ namespace Cw3APBD.Services
                         dr.Close();
                         transaction.Rollback();
                         //return BadRequest($"Student with {request.IndexNumber} exist");
+                        enrollExceptionHelper.Number = 2;
+                        return enrollExceptionHelper;
                     }
 
                     int idEnrollment = (int)dr["IdEnrollment"];
@@ -94,6 +100,8 @@ namespace Cw3APBD.Services
                     transaction.Rollback();
                 }
             }
+
+            return enrollExceptionHelper;
 
         }
 
