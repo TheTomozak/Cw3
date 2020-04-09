@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Cw3APBD.DAL;
 using Cw3APBD.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace Cw3APBD
 {
@@ -27,18 +28,41 @@ namespace Cw3APBD
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IStudentsDbService, SqlServerDbService>();
             services.AddTransient<IStudentsDbService, SqlServerDbService>();
             services.AddSingleton<IDbService, MockDbService>();
             services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IStudentsDbService service)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.Use(async (context, next) =>
+            {
+                if (!context.Request.Headers.ContainsKey("Index"))
+                {
+                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                    await context.Response.WriteAsync("You must give index number");
+                    return;
+                }
+
+                string index = context.Request.Headers["Index"].ToString();
+                var stu = service.GetStudent(index);
+                if (stu == null)
+                {
+                    context.Response.StatusCode = StatusCodes.Status404NotFound;
+                    await context.Response.WriteAsync("Student not found");
+                    return;
+                }
+
+                await next();
+            });
+
 
             app.UseHttpsRedirection();
 
@@ -46,10 +70,7 @@ namespace Cw3APBD
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }

@@ -141,5 +141,47 @@ namespace Cw3APBD.Services
             }
 
         }
+
+        public Student GetStudent(string indexNumber)
+        {
+
+
+            using (var con = new SqlConnection(ConString))
+            using (var com = new SqlCommand())
+            {
+
+                var st = new Student();
+                com.Connection = con;
+                con.Open();
+
+                
+                com.CommandText = "SELECT * FROM Student WHERE indexNumber=@index";
+                com.Parameters.AddWithValue("index", indexNumber);
+
+                var dr = com.ExecuteReader();
+                if (!dr.Read())
+                {
+                    return null;
+                }
+
+                st.FirstName = dr["FirstName"].ToString();
+                st.LastName = dr["LastName"].ToString();
+                st.BirthDate = DateTime.Parse(dr["BirthDate"].ToString());
+                st.IdEnrollment = int.Parse(dr["IdEnrollment"].ToString());
+                st.IndexNumber = dr["IndexNumber"].ToString();
+              
+
+                // return new Student{BirthDate = st.BirthDate, FirstName = st.FirstName, IdEnrollment = st.IdEnrollment, IdStudent = st.IdStudent, IndexNumber = st.IndexNumber,
+                //     LastName = st.LastName, Semester = st.Semester, Studies = st.Studies};
+
+                return st;
+
+                //return new Student();
+
+            }
+
+            
+            
+        }
     }
 }
