@@ -12,7 +12,8 @@ namespace Cw3APBD.Services
 {
     public class SqlServerDbService : IStudentsDbService
     {
-         private string ConString = "Data Source=db-mssql;Initial Catalog=s18969;Integrated Security=True";
+        private string ConString = "Data Source=db-mssql;Initial Catalog=s18969;Integrated Security=True";
+
         public EnrollExceptionHelper EnrollStudent(EnrollStudentRequest request)
         {
             var st = new Student();
@@ -42,16 +43,16 @@ namespace Cw3APBD.Services
                     {
                         dr.Close();
                         transaction.Rollback();
-                       // return BadRequest("Studies not exist");
-                       enrollExceptionHelper.Number = 1;
-                       return enrollExceptionHelper;
-
+                        // return BadRequest("Studies not exist");
+                        enrollExceptionHelper.Number = 1;
+                        return enrollExceptionHelper;
                     }
 
-                    int idStudy = (int)dr["IdStudy"];
+                    int idStudy = (int) dr["IdStudy"];
 
                     dr.Close();
-                    com.CommandText = "SELECT IdEnrollment FROM Enrollment WHERE IdStudy = @idStudy AND Semester=1 AND StartDate = (SELECT MAX(StartDate) FROM Enrollment)";
+                    com.CommandText =
+                        "SELECT IdEnrollment FROM Enrollment WHERE IdStudy = @idStudy AND Semester=1 AND StartDate = (SELECT MAX(StartDate) FROM Enrollment)";
                     com.Parameters.AddWithValue("idStudy", idStudy);
 
                     dr = com.ExecuteReader();
@@ -79,7 +80,7 @@ namespace Cw3APBD.Services
                         return enrollExceptionHelper;
                     }
 
-                    int idEnrollment = (int)dr["IdEnrollment"];
+                    int idEnrollment = (int) dr["IdEnrollment"];
                     dr.Close();
 
 
@@ -93,7 +94,6 @@ namespace Cw3APBD.Services
 
                     com.ExecuteNonQuery();
                     transaction.Commit();
-
                 }
                 catch (SqlException)
                 {
@@ -102,7 +102,6 @@ namespace Cw3APBD.Services
             }
 
             return enrollExceptionHelper;
-
         }
 
         public void PromoteStudent(EnrollPromotionsRequest enrollPromotionsRequest)
@@ -123,38 +122,30 @@ namespace Cw3APBD.Services
 
                 try
                 {
-
                     com.CommandText = "EXEC @studies, @semester";
                     com.Parameters.AddWithValue("studies", enrollPromotionsRequest.Studies);
                     com.Parameters.AddWithValue("semester", enrollPromotionsRequest.Semester);
                     com.ExecuteNonQuery();
 
                     transaction.Commit();
-
                 }
                 catch (SqlException)
                 {
                     transaction.Rollback();
                 }
-
-
             }
-
         }
 
         public Student GetStudent(string indexNumber)
         {
-
-
             using (var con = new SqlConnection(ConString))
             using (var com = new SqlCommand())
             {
-
                 var st = new Student();
                 com.Connection = con;
                 con.Open();
 
-                
+
                 com.CommandText = "SELECT * FROM Student WHERE indexNumber=@index";
                 com.Parameters.AddWithValue("index", indexNumber);
 
@@ -169,19 +160,9 @@ namespace Cw3APBD.Services
                 st.BirthDate = DateTime.Parse(dr["BirthDate"].ToString());
                 st.IdEnrollment = int.Parse(dr["IdEnrollment"].ToString());
                 st.IndexNumber = dr["IndexNumber"].ToString();
-              
-
-                // return new Student{BirthDate = st.BirthDate, FirstName = st.FirstName, IdEnrollment = st.IdEnrollment, IdStudent = st.IdStudent, IndexNumber = st.IndexNumber,
-                //     LastName = st.LastName, Semester = st.Semester, Studies = st.Studies};
 
                 return st;
-
-                //return new Student();
-
             }
-
-            
-            
         }
     }
 }

@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Cw3APBD.DAL;
+using Cw3APBD.Middlewares;
 using Cw3APBD.Services;
 using Microsoft.AspNetCore.Http;
 
@@ -42,6 +43,7 @@ namespace Cw3APBD
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseMiddleware<LoggingMiddleware>();
             app.Use(async (context, next) =>
             {
                 if (!context.Request.Headers.ContainsKey("Index"))
