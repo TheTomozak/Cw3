@@ -1,18 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Cw3APBD.DTOs;
 using Cw3APBD.DTOs.Requests;
 using Cw3APBD.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Cw3APBD.Services
 {
     public class SqlServerDbService : IStudentsDbService
     {
         private string ConString = "Data Source=db-mssql;Initial Catalog=s18969;Integrated Security=True";
+       
 
         public EnrollExceptionHelper EnrollStudent(EnrollStudentRequest request)
         {
@@ -104,6 +110,7 @@ namespace Cw3APBD.Services
             return enrollExceptionHelper;
         }
 
+        
         public void PromoteStudent(EnrollPromotionsRequest enrollPromotionsRequest)
         {
             var st = new Student();
@@ -164,5 +171,7 @@ namespace Cw3APBD.Services
                 return st;
             }
         }
+
+      
     }
 }

@@ -7,7 +7,6 @@ namespace Cw3APBD.Models
 {
     public class Student
     {
-
         public int IdStudent { get; set; }
 
         public string FirstName { get; set; }
@@ -23,6 +22,8 @@ namespace Cw3APBD.Models
 
         public int Semester { get; set; }
 
+        public string Password { get; set; }
 
+        public string Role { get; set; }
     }
 }

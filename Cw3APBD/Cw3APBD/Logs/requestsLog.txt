@@ -21,19 +21,7 @@ HTTP body: {
 }
 
 Methods HTTP: GET
-The path to which the request was sent: /api/enrollments
-Information from Query string: 
-HTTP body: {
-        "firstName": "Michal",
-        "lastName": "Pilotowski",
-        "indexNumber": "s18969",
-        "idEnrollment": "1",
-        "birthDate": "1976-01-03",
-        "studies":"PJATK"
-}
-
-Methods HTTP: GET
-The path to which the request was sent: /api/enrollments
+The path to which the request was sent: /api/students
 Information from Query string: 
 HTTP body: {
         "firstName": "Michal",
@@ -46,7 +34,7 @@ HTTP body: {
 
 Methods HTTP: GET
 The path to which the request was sent: /api/students
-Information from Query string: ?orderBy=lastName
+Information from Query string: 
 HTTP body: {
         "firstName": "Michal",
         "lastName": "Pilotowski",
@@ -58,18 +46,16 @@ HTTP body: {
 
 Methods HTTP: GET
 The path to which the request was sent: /api/students
-Information from Query string: ?orderBy=lastName
-HTTP body: {
-        "firstName": "Michal",
-        "lastName": "Pilotowski",
-        "indexNumber": "s18969",
-        "idEnrollment": "1",
-        "birthDate": "1976-01-03",
-        "studies":"PJATK"
-}
+Information from Query string: 
+HTTP body: 
 
-Methods HTTP: POST
-The path to which the request was sent: /api/enrollments
+Methods HTTP: GET
+The path to which the request was sent: /favicon.ico
+Information from Query string: 
+HTTP body: 
+
+Methods HTTP: GET
+The path to which the request was sent: /api/students
 Information from Query string: 
 HTTP body: {
         "firstName": "Michal",
@@ -80,3 +66,198 @@ HTTP body: {
         "studies":"PJATK"
 }
 
+Methods HTTP: GET
+The path to which the request was sent: /api/students
+Information from Query string: 
+HTTP body: 
+
+Methods HTTP: GET
+The path to which the request was sent: /favicon.ico
+Information from Query string: 
+HTTP body: 
+
+Methods HTTP: GET
+The path to which the request was sent: /api/students
+Information from Query string: 
+HTTP body: {
+        "firstName": "Michal",
+        "lastName": "Pilotowski",
+        "indexNumber": "s18969",
+        "idEnrollment": "1",
+        "birthDate": "1976-01-03",
+        "studies":"PJATK"
+}
+
+Methods HTTP: GET
+The path to which the request was sent: /api/students
+Information from Query string: 
+HTTP body: {
+        "firstName": "Michal",
+        "lastName": "Pilotowski",
+        "indexNumber": "s18969",
+        "idEnrollment": "1",
+        "birthDate": "1976-01-03",
+        "studies":"PJATK"
+}
+
+Methods HTTP: GET
+The path to which the request was sent: /api/students
+Information from Query string: 
+HTTP body: {
+        "firstName": "Michal",
+        "lastName": "Pilotowski",
+        "indexNumber": "s18969",
+        "idEnrollment": "1",
+        "birthDate": "1976-01-03",
+        "studies":"PJATK"
+}
+
+Methods HTTP: GET
+The path to which the request was sent: /api/students
+Information from Query string: 
+HTTP body: 
+
+Methods HTTP: GET
+The path to which the request was sent: /favicon.ico
+Information from Query string: 
+HTTP body: 
+
+Methods HTTP: GET
+The path to which the request was sent: /api/students
+Information from Query string: 
+HTTP body: {
+        "firstName": "Michal",
+        "lastName": "Pilotowski",
+        "indexNumber": "s18969",
+        "idEnrollment": "1",
+        "birthDate": "1976-01-03",
+        "studies":"PJATK"
+}
+
+Methods HTTP: GET
+The path to which the request was sent: /api/students
+Information from Query string: 
+HTTP body: {
+        "firstName": "Michal",
+        "lastName": "Pilotowski",
+        "indexNumber": "s18969",
+        "idEnrollment": "1",
+        "birthDate": "1976-01-03",
+        "studies":"PJATK"
+}
+
+Methods HTTP: GET
+The path to which the request was sent: /api/students
+Information from Query string: 
+HTTP body: 
+
+Methods HTTP: GET
+The path to which the request was sent: /favicon.ico
+Information from Query string: 
+HTTP body: 
+
+Methods HTTP: GET
+The path to which the request was sent: /api/students
+Information from Query string: 
+HTTP body: {
+        "firstName": "Michal",
+        "lastName": "Pilotowski",
+        "indexNumber": "s18969",
+        "idEnrollment": "1",
+        "birthDate": "1976-01-03",
+        "studies":"PJATK"
+}
+
+Methods HTTP: GET
+The path to which the request was sent: /api/students
+Information from Query string: 
+HTTP body: {
+        "firstName": "Michal",
+        "lastName": "Pilotowski",
+        "indexNumber": "s18969",
+        "idEnrollment": "1",
+        "birthDate": "1976-01-03",
+        "studies":"PJATK"
+}
+
+Methods HTTP: GET
+The path to which the request was sent: /api/students
+Information from Query string: 
+HTTP body: {
+        "firstName": "Michal",
+        "lastName": "Pilotowski",
+        "indexNumber": "s18969",
+        "idEnrollment": "1",
+        "birthDate": "1976-01-03",
+        "studies":"PJATK"
+}
+
+Methods HTTP: GET
+The path to which the request was sent: /api/students
+Information from Query string: 
+HTTP body: {
+        "firstName": "Michal",
+        "lastName": "Pilotowski",
+        "indexNumber": "s18969",
+        "idEnrollment": "1",
+        "birthDate": "1976-01-03",
+        "studies":"PJATK"
+}
+
+Methods HTTP: GET
+The path to which the request was sent: /api/students
+Information from Query string: 
+HTTP body: 
+
+Methods HTTP: GET
+The path to which the request was sent: /api/students
+Information from Query string: 
+HTTP body: {
+        "firstName": "Michal",
+        "lastName": "Pilotowski",
+        "indexNumber": "s18969",
+        "idEnrollment": "1",
+        "birthDate": "1976-01-03",
+        "studies":"PJATK"
+}
+
+Methods HTTP: GET
+The path to which the request was sent: /favicon.ico
+Information from Query string: 
+HTTP body: 
+
+Methods HTTP: GET
+The path to which the request was sent: /api/students
+Information from Query string: 
+HTTP body: {
+        "firstName": "Michal",
+        "lastName": "Pilotowski",
+        "indexNumber": "s18969",
+        "idEnrollment": "1",
+        "birthDate": "1976-01-03",
+        "studies":"PJATK"
+}
+
+Methods HTTP: GET
+The path to which the request was sent: /api/students
+Information from Query string: 
+HTTP body: {
+        "firstName": "Michal",
+        "lastName": "Pilotowski",
+        "indexNumber": "s18969",
+        "idEnrollment": "1",
+        "birthDate": "1976-01-03",
+        "studies":"PJATK"
+}
+
+Methods HTTP: GET
+The path to which the request was sent: /api/students
+Information from Query string: 
+HTTP body: {
+        "firstName": "Michal",
+        "lastName": "Pilotowski",
+        "indexNumber": "s18969",
+        "idEnrollment": "1",
+        "birthDate": "1976-01-03",
+        "studies":"PJATK"
+}

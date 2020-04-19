@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Cw3APBD.DAL;
 using Cw3APBD.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cw3APBD.Controllers
@@ -31,6 +32,7 @@ namespace Cw3APBD.Controllers
         */
 
         [HttpGet]
+        [Authorize]
         public IActionResult GetStudents()   // przekazywane danych z pomocą QueryString
         {
             // return $"Kowalski, Malewski, Andrzejewski sortowanie={orderBy}";

@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Cw3APBD.Controllers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,7 +15,9 @@ using Microsoft.Extensions.Logging;
 using Cw3APBD.DAL;
 using Cw3APBD.Middlewares;
 using Cw3APBD.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Cw3APBD
 {
@@ -29,10 +33,35 @@ namespace Cw3APBD
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidIssuer = "s18969",
+                        ValidAudience = "employee",
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["SecretKey"]))
+                    };
+                });
+
             services.AddScoped<IStudentsDbService, SqlServerDbService>();
             services.AddTransient<IStudentsDbService, SqlServerDbService>();
             services.AddSingleton<IDbService, MockDbService>();
-            services.AddControllers();
+            services.AddControllers().AddXmlSerializerFormatters();
+            //content negotiation - accept 
+            // W postmanie jako wartoœæ mo¿emy podaæ tak jakby na ile porocent chcê uzyskaæ dany format "application/xml;q=0.90,application/json;q=1"
+            // np. (quality) q = 0.5 
+
+            
+
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,6 +98,8 @@ namespace Cw3APBD
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
